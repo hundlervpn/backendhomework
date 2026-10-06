@@ -1,10 +1,14 @@
 from fastapi import FastAPI, Request, Response
 
 from api.v1 import users_router, tasks_router
+from core.database import Base, engine
+from models import Task
 
 app = FastAPI()
 app.include_router(tasks_router)
 app.include_router(users_router)
+
+Base.metadata.create_all(engine)
 
 @app.get("/")
 def health():
